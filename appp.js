@@ -2,6 +2,50 @@
 // Budget Controller
 
 var budgetController = (function () {
+    
+    var expense = function (id, description, value) {
+        this.id = id,
+        this.description = description,
+        this.value = value
+    };
+
+    var income = function (id, description, value) {
+        this.id = id,
+            this.description = description,
+            this.value = value
+    };
+
+    var data = {
+        allitems: {
+            exp:[],
+            inc:[]
+        },
+
+        totals:{
+            exp: 0,
+            inc: 0
+        };
+    };
+
+    return {
+
+        additem: function (type, des, val) {
+
+            var newitem, ID;
+
+            ID = data.allitems[type][data.allitems[type].length-1].id + 1;
+
+            if(type === 'exp'){
+                newitem = new expense(ID, des, val);
+            }else if(type === 'inc'){
+                newitem = new income(ID, des, val);
+            }
+            data.allitems[type].push(newitem);
+            return newitem;
+        }
+
+
+    };
 
 
 })();
