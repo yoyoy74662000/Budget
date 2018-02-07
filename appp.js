@@ -9,8 +9,14 @@ var budgetController = (function () {
 // UI Controller
 var UIController = (function () {
 
+    var DOMstring = {
+        inputtype: '.add__type',
+        inputdescription: '.add__description',
+        inputvalue: '.add__value'
+    };
 
     return {
+
         getinput: function () {
 
             return {
@@ -30,6 +36,10 @@ var UIController = (function () {
 
 // Global app controller
 var controller = (function(budgetCtrl, UICtrl){
+    var DOMstring = {
+        inputbtn : '.add__btn'
+    };
+
     
     var ctrlAddItem = function () {
 
@@ -39,7 +49,7 @@ var controller = (function(budgetCtrl, UICtrl){
 
     }
     
-    document.querySelector('.add__btn').addEventListener('click',ctrlAddItem);
+    document.querySelector(DOMstring.inputbtn).addEventListener('click',ctrlAddItem);
 
 
 
