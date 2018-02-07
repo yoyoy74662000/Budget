@@ -12,21 +12,22 @@ var UIController = (function () {
     var DOMstring = {
         inputtype: '.add__type',
         inputdescription: '.add__description',
-        inputvalue: '.add__value'
+        inputvalue: '.add__value',
+        inputBtn: '.add__btn'
     };
 
     return {
-
         getinput: function () {
-
             return {
 
-                type: document.querySelector('.add__type').value,
-                description: document.querySelector('.add__description').value,
-                value: document.querySelector('.add__value').value
-
+                type: document.querySelector(DOMstring.inputtype).value,
+                description: document.querySelector(DOMstring.inputdescription).value,
+                value: document.querySelector(DOMstring.inputvalue).value
             };
+        },
 
+        getDOMstrings: function(){
+            return DOMstring;
         }
     };
 
@@ -36,11 +37,11 @@ var UIController = (function () {
 
 // Global app controller
 var controller = (function(budgetCtrl, UICtrl){
-    var DOMstring = {
-        inputbtn : '.add__btn'
-    };
 
-    
+
+
+    var DOM = UICtrl.getDOMstrings();
+
     var ctrlAddItem = function () {
 
         // 1. get the field of input data
@@ -48,10 +49,8 @@ var controller = (function(budgetCtrl, UICtrl){
         console.log(input);
 
     }
-    
-    document.querySelector(DOMstring.inputbtn).addEventListener('click',ctrlAddItem);
 
-
+    document.querySelector(DOM.inputBtn).addEventListener('click',ctrlAddItem);
 
     document.addEventListener('keypress', function (event) {
 
@@ -60,5 +59,7 @@ var controller = (function(budgetCtrl, UICtrl){
         }
 
     });
+
+
 
 })(budgetController, UIController);
