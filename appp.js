@@ -15,16 +15,25 @@ var budgetController = (function () {
         this.value = value
     };
 
+    var calculatetotal = function (type) {
+        var sum = 0;
+        data.allitems[type].forEach(function (cur) {
+            sum += cur.value;
+        });
+        data.totals[type] = sum;
+    };
+
     var data = {
         allitems: {
             exp:[],
             inc:[]
         },
-
         totals:{
             exp: 0,
             inc: 0
-        }
+        },
+        budget: 0,
+        percentage: -1
     };
 
     return {
@@ -54,6 +63,29 @@ var budgetController = (function () {
             return newitem;
         },
 
+
+        calculatebudget: function () {
+
+            calculatetotal('inc');
+            calculatetotal('exp');
+
+            data.budget = data.totals.inc - data.totals.exp;
+
+            data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+
+        },
+
+        getbudget: function () {
+
+            return {
+
+                budget: data.budget,
+                totalinc: data.totals.inc,
+                totalexp: data.totals.exp,
+                percentage: data.percentage + '%'
+            }
+        },
+
         // testing data
         testing: function () {
             console.log(data);
@@ -81,7 +113,7 @@ var UIController = (function () {
 
                 type: document.querySelector(DOMstring.inputtype).value,
                 description: document.querySelector(DOMstring.inputdescription).value,
-                value: document.querySelector(DOMstring.inputvalue).value
+                value: parseFloat(document.querySelector(DOMstring.inputvalue).value)
             };
         },
 
@@ -151,6 +183,19 @@ var controller = (function(budgetCtrl, UICtrl){
         });
     };
 
+    var updatebudget = function () {
+
+        // calculate budget
+        budgetController.calculatebudget();
+
+        //get budget
+        var budget = budgetController.getbudget();
+
+        //display
+        console.log(budget);
+
+    };
+
 
 
     var ctrlAddItem = function () {
@@ -161,12 +206,22 @@ var controller = (function(budgetCtrl, UICtrl){
         input = UICtrl.getinput();
         console.log(input);
 
-        // 2. add the item to the budget controller
-        newitem = budgetController.additem(input.type, input.description, input.value);
+        if(input.description !== "" && !isNaN(input.value) && input.value > 0){
 
-        // 3. add the item to the UI
-        UICtrl.addlistitem(newitem, input.type);
-        UICtrl.clearfields();
+            // 2. add the item to the budget controller
+            newitem = budgetController.additem(input.type, input.description, input.value);
+
+            // 3. add the item to the UI
+            UICtrl.addlistitem(newitem, input.type);
+
+            // 4. clean the field
+            UICtrl.clearfields();
+
+            updatebudget();
+
+        }
+
+
     };
 
     return {
