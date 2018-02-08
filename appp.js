@@ -108,6 +108,22 @@ var UIController = (function () {
 
 
         },
+        // clean the field and focus
+        clearfields: function () {
+
+            var field, fieldarray;
+            field = document.querySelectorAll(DOMstring.inputdescription + ',' + DOMstring.inputvalue);
+
+            fieldarray = Array.prototype.slice.call(field);
+
+            fieldarray.forEach(function (current, index, array) {
+                current.value = "";
+            });
+
+            fieldarray[0].focus();
+        },
+
+
 
         getDOMstrings: function(){
             return DOMstring;
@@ -150,6 +166,7 @@ var controller = (function(budgetCtrl, UICtrl){
 
         // 3. add the item to the UI
         UICtrl.addlistitem(newitem, input.type);
+        UICtrl.clearfields();
     };
 
     return {
