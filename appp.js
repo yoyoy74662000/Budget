@@ -54,6 +54,7 @@ var budgetController = (function () {
             return newitem;
         },
 
+        // testing data
         testing: function () {
             console.log(data);
         }
