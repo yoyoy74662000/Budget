@@ -160,6 +160,14 @@ var UIController = (function () {
 
 
         },
+
+        deletelistitem: function (selectorid) {
+
+            var el;
+            el = document.getElementById(selectorid);
+            el.parentNode.removeChild(el);
+        },
+
         // clean the field and focus
         clearfields: function () {
 
@@ -233,6 +241,8 @@ var controller = (function(budgetCtrl, UICtrl){
         //display
         UICtrl.displaybudget(budget);
 
+
+
     };
     
     var ctrldeleteitem = function (event) {
@@ -247,6 +257,12 @@ var controller = (function(budgetCtrl, UICtrl){
 
             // 1. delete the item in the data structure
             budgetController.deleteitem(type,id);
+
+            // 2. delete the item from the UI
+            UICtrl.deletelistitem(itemid);
+
+            // 3. update and show the new budget
+            updatebudget();
         };
 
     };
